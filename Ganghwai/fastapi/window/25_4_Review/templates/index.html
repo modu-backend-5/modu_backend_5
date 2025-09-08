@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>API 테스트</title>
+</head>
+
+<body>
+    <h1>API 테스트</h1>
+
+    <div>
+        <h3>사용자 등록</h3>
+        <input id="name" placeholder="이름">
+        <input id="email" placeholder="이메일">
+        <input id="age" placeholder="나이">
+        <button onclick="addUser()">등록</button>
+    </div>
+
+    <div>
+        <h3>포스트 작성</h3>
+        <input id="title" placeholder="제목">
+        <input id="content" placeholder="내용">
+        <input id="author" placeholder="작성자">
+        <input id="authorEmail" placeholder="이메일">
+        <button onclick="addPost()">작성</button>
+    </div>
+
+    <script>
+        async function addUser() {
+            const response = await fetch('/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    age: parseInt(document.getElementById('age').value)
+                })
+            });
+            alert('등록완료!');
+        }
+
+        async function addPost() {
+            const response = await fetch('/posts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: document.getElementById('title').value,
+                    content: document.getElementById('content').value,
+                    author: {
+                        name: document.getElementById('author').value,
+                        email: document.getElementById('authorEmail').value
+                    }
+                })
+            });
+            alert('작성완료!');
+        }
+    </script>
+</body>
+
+</html>
