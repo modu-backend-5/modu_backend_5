@@ -1,8 +1,9 @@
 from fastapi import FastAPI
-from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 app = FastAPI()
+
+
 users = []
 posts = []
 
@@ -26,18 +27,47 @@ class BlogPost(BaseModel):
 
 @app.get("/")
 def home():
-    return FileResponse("index.html")
+
+    if os.path.exists("index.html"):
+        return FileResponse("index.html")
+    return {"message": "안녕하세요!"}
 
 
 @app.post("/users")
 def create_user(user: User):
-    user_data = {"id": len(users) + 1, **user.dict()}
+    user_data = {
+        "id": len(users) + 1,
+        "name": user.name,
+        "email": user.email,
+        "age": user.age,
+    }
     users.append(user_data)
     return user_data
 
 
+@app.get("/users")
+def get_users():
+    return users
+
+
 @app.post("/posts")
 def create_post(post: BlogPost):
-    post_data = {"id": len(posts) + 1, **post.dict()}
+    post_data = {
+        "id": len(posts) + 1,
+        "title": post.title,
+        "content": post.content,
+        "author": {"name": post.author.name, "email": post.author.email},
+    }
     posts.append(post_data)
     return post_data
+
+
+@app.get("/posts")
+def get_posts():
+    return posts
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)
