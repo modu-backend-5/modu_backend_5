@@ -3,6 +3,7 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
+import os
 
 app = FastAPI()
 
@@ -12,6 +13,7 @@ posts = []
 
 
 class User(BaseModel):
+    user_id: int
     name: str
     email: str
     age: int
@@ -30,6 +32,7 @@ class BlogPost(BaseModel):
 
 @app.get("/")
 def home():
+    # import 에러
     if os.path.exists("index.html"):
         return FileResponse("index.html")
     return {"message": "안녕하세요! 간단한 블로그 API입니다."}
@@ -37,14 +40,8 @@ def home():
 
 @app.post("/users")
 def create_user(user: User):
-    user_data = {
-        "id": len(users) + 1,
-        "name": user.name,
-        "email": user.email,
-        "age": user.age,
-    }
-    users.append(user_data)
-    return user_data
+    users.append(user)
+    return user
 
 
 @app.get("/users")
@@ -54,14 +51,8 @@ def get_users():
 
 @app.post("/posts")
 def create_post(post: BlogPost):
-    post_data = {
-        "id": len(posts) + 1,
-        "title": post.title,
-        "content": post.content,
-        "author": {"name": post.author.name, "email": post.author.email},
-    }
-    posts.append(post_data)
-    return post_data
+    posts.append(post)
+    return post
 
 
 @app.get("/posts")
