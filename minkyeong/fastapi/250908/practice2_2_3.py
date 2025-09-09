@@ -7,30 +7,46 @@ from pydantic import BaseModel
 
 app = FastAPI()
 posts = []
+# users = [Userinfo, Userinfo]
+# users.append(user)
+users = []
 
-class Userpost(BaseModel):
-    title: str
-    contents: str
 
 class Userinfo(BaseModel):
     name: str
     email: str
 
 
+class Userpost(BaseModel):
+    title: str
+    contents: str
+    author: Userinfo
+
+
 @app.get("/blogpost")
 def post_():
     return {"posts": posts}
 
-@app.post('/blogpost')
+
+@app.post("/blogpost")
 def create_post(post: Userpost):
     posts.append(post)
     return {"post": post}
 
 
-@app.get("/blogpost/{user_id}")
-def user_info(user_id: int):
-    return {"user_id": user_id}
+@app.post("/user")
+def create_user(user: Userinfo):
+    users.append(user)
+    return {"user": user}
 
-@app.post("/blogpost/{user_id}")
+
+@app.get("/user/{user_id}")
 def user_info(user_id: int):
-    posts.append() # ???ㅠㅜㅠ
+    find_user = users[user_id]
+    return {"find_user": find_user}
+
+
+# @app.post("/user")
+# def create_user(user: Userinfo):
+#     users.append(user)
+#     return {"user": user}

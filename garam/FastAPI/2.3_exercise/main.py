@@ -5,14 +5,17 @@ from typing import Optional
 
 app = FastAPI()
 
+
 class User(BaseModel):
     name: str
     email: str
     age: int = None
 
+
 @app.get("/test")
 def test():
     return {"서버작동중"}
+
 
 @app.post("/register")
 def register(user: User):
@@ -24,13 +27,14 @@ def register(user: User):
 class BlogPost(BaseModel):
     title: str
     content: str
-    author: str  
+    author: str
+
 
 class BlogPostResponse(BaseModel):
     id: int
-    email : str
-    details : BlogPost
-  
+    email: str
+    details: BlogPost
+
 
 @app.post("/blog/register")
 def create_blog_post(blog_post: BlogPost):
