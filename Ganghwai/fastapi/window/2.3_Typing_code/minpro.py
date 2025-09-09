@@ -1,3 +1,5 @@
+# 사용자 정보를 저장하는 POST 엔드포인트를 만들어보세요. 사용자 정보는 이름, 이메일, 나이를 포함해야 합니다. Pydantic 모델을 사용하여 데이터를 검증하세요.
+
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from pydantic import BaseModel

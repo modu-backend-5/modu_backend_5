@@ -1,3 +1,5 @@
+# 블로그 포스트를 생성하는 엔드포인트를 만들어보세요. 블로그 포스트는 제목, 내용, 작성자 정보(이름, 이메일)를 포함해야 합니다. 중첩된 Pydantic 모델을 사용하세요.
+
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
