@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -27,10 +28,9 @@ class BlogPost(BaseModel):
 
 @app.get("/")
 def home():
-
     if os.path.exists("index.html"):
         return FileResponse("index.html")
-    return {"message": "안녕하세요!"}
+    return {"message": "안녕하세요! 간단한 블로그 API입니다."}
 
 
 @app.post("/users")
@@ -47,7 +47,7 @@ def create_user(user: User):
 
 @app.get("/users")
 def get_users():
-    return users
+    return {"users": users}
 
 
 @app.post("/posts")
@@ -64,7 +64,7 @@ def create_post(post: BlogPost):
 
 @app.get("/posts")
 def get_posts():
-    return posts
+    return {"posts": posts}
 
 
 if __name__ == "__main__":
