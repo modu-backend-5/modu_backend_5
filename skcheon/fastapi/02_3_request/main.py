@@ -5,42 +5,51 @@ from pydantic import BaseModel
 app = FastAPI()
 items = []
 
+
 class ItemDetail(BaseModel):
     description: str
     weight: float
+
 
 class Item(BaseModel):
     name: str
     price: float
     details: ItemDetail
-    
+
+
 class User(BaseModel):
     name: str
     email: str
     age: int
 
+
 class Writer(BaseModel):
     name: str
     email: str
+
 
 class BlogPost(BaseModel):
     title: str
     content: str
     writer: Writer
 
+
 @app.get("/")
 async def index(name: str, price: int):
     print(name, price)
     return {"name": name, "price": price}
+
 
 @app.post("/item")
 async def item_create(item: Item):
     items.append(item)
     return {"item": item}
 
+
 @app.get("/item")
 async def item_list():
     return {"items": items}
+
 
 @app.get("/item/{item_id}")
 async def item_detail(item_id: int):
@@ -50,14 +59,17 @@ async def item_detail(item_id: int):
         return {"error": "Item not found"}
     return {"item": item}
 
+
 @app.put("/item/{item_id}")
 async def item_update(item_id: int, item: Item):
     items[item_id - 1] = item
     return {"item": item}
 
+
 @app.post("/user")
 async def user_create(user: User):
     return {"user": user}
+
 
 @app.post("/blog")
 async def blog_create(blog: BlogPost):
